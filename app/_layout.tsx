@@ -1,39 +1,29 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+// app/_layout.tsx
+import { Tabs } from 'expo-router';
+import React from 'react';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+const TabLayout = () => {
+    return (
+        <Tabs>
+            <Tabs.Screen
+                name="index" // Tên route cho trang chủ (index.tsx)
+                options={{
+                    tabBarLabel: 'Bản Đồ', // Label trên tab
+                    title: 'Điểm Đổi Pin', // Title trên header
+                    // tabBarIcon: ({ color, focused }) => ( ... Icon cho tab ... ), // Tùy chỉnh icon
+                }}
+            />
+            <Tabs.Screen
+                name="explore" // Tên route cho trang khám phá (explore.tsx)
+                options={{
+                    tabBarLabel: 'Khám Phá',
+                    title: 'Khám Phá',
+                    // tabBarIcon: ({ color, focused }) => ( ... Icon cho tab ... ),
+                }}
+            />
+            {/* TODO: Thêm các Tabs.Screen khác nếu cần (ví dụ: Trang yêu cầu đổi pin, trang cá nhân...) */}
+        </Tabs>
+    );
+};
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
-}
+export default TabLayout;
