@@ -19,6 +19,34 @@ const TabLayout = () => {
                     title: 'Explore',
                 }}
             />
+            <Tabs.Screen
+                name="profile"
+                options={{
+                    tabBarLabel: 'Profile',
+                    title: 'Profile',
+                }}
+            />
+            <Tabs.Screen
+                name="notifications"
+                options={{
+                    tabBarLabel: 'Notifications',
+                    title: 'Notifications',
+                }}
+            />
+            <Tabs.Screen
+                name="community"
+                options={{
+                    tabBarLabel: 'Community',
+                    title: 'Community',
+                }}
+            />
+            <Tabs.Screen
+                name="leaderboard"
+                options={{
+                    tabBarLabel: 'Leaderboard',
+                    title: 'Leaderboard',
+                }}
+            />
         </Tabs>
     );
 };

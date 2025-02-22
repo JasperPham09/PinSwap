@@ -1,6 +1,7 @@
 // MapComponent.tsx
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -25,25 +26,36 @@ const MapComponent: React.FC<MapComponentProps> = ({ pinLocations }) => {
   const theme = useColorScheme() ?? 'light';
 
   return (
-    <View style={[styles.mapContainer, { backgroundColor: theme === 'light' ? Colors.light.background : Colors.dark.background }]}>
-      {pinLocations.map((location: Location) => ( // Explicitly type location in map function
-        <View key={location.id} style={styles.pin}>
-          <Text style={{ color: theme === 'light' ? Colors.light.text : Colors.dark.text }}>{location.name}</Text>
-        </View>
-      ))}
+    <View style={styles.container}>
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: 10.77,
+          longitude: 106.69,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      >
+        {pinLocations.map((location) => (
+          <Marker
+            key={location.id}
+            coordinate={{ latitude: location.lat, longitude: location.lng }}
+            title={location.name}
+            description={location.address}
+          />
+        ))}
+      </MapView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  mapContainer: {
+  container: {
     flex: 1,
   },
-  pin: {
-    padding: 10,
-    backgroundColor: '#fff',
-    margin: 5,
-    borderRadius: 5,
+  map: {
+    width: '100%',
+    height: '100%',
   },
 });
 
