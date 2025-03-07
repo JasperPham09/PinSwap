@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Nếu bạn muốn dùng icon mắt
+import { Ionicons } from '@expo/vector-icons'; 
 
 export default function App() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        {/* Phần Header Logo - Tinh chỉnh logo và subtitle */}
+       
         <View style={styles.headerContainer}>
           <View style={styles.logoBackground}>
             <Text style={styles.logoText}>PINSWAP</Text>
@@ -14,7 +14,7 @@ export default function App() {
           </View>
         </View>
 
-        {/* Phần Button Đăng nhập - Đăng ký (tinh chỉnh button) */}
+        
         <View style={styles.buttonGroup}>
           <TouchableOpacity style={[styles.loginRegisterButton, styles.loginButtonActive]}> {/* Thêm style loginButtonActive cho nút Đăng nhập */}
             <Text style={[styles.loginRegisterButtonText, styles.loginButtonActiveText]}>ĐĂNG NHẬP</Text> {/* Thêm style loginButtonActiveText */}
@@ -24,31 +24,28 @@ export default function App() {
           </TouchableOpacity>
         </View>
 
-        {/* Phần Form Đăng nhập - Tinh chỉnh input và password container */}
+        
         <View style={styles.formContainer}>
           <TextInput
             style={[styles.input, styles.roundedInput]}
             placeholder="Email hoặc số điện thoại"
-            placeholderTextColor="#999" // Màu placeholder nhạt hơn
+            placeholderTextColor="#999" 
           />
           <View style={[styles.passwordInputContainer, styles.roundedInput]}>
             <TextInput
               style={styles.passwordInput}
               placeholder="Mật khẩu"
-              placeholderTextColor="#999" // Màu placeholder nhạt hơn
+              placeholderTextColor="#999" 
               secureTextEntry={true}
             />
-            {/* Icon mắt (tùy chọn) */}
-            {/* <TouchableOpacity style={styles.eyeIcon}>
-              <Ionicons name="eye-off-outline" size={24} color="gray" />
-            </TouchableOpacity> */}
+           
           </View>
           <TouchableOpacity style={styles.loginButton}>
             <Text style={styles.loginButtonText}>ĐĂNG NHẬP</Text>
           </TouchableOpacity>
         </View>
 
-        {/* Phần Link Đăng ký nếu chưa có tài khoản (không đổi) */}
+      
         <View style={styles.registerLinkContainer}>
           <Text style={styles.registerText}>Bạn chưa có tài khoản? Vui lòng</Text>
           <TouchableOpacity>
@@ -67,7 +64,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingHorizontal: 25, // Padding ngang container, cân đối hơn
+    paddingHorizontal: 25, 
     backgroundColor: '#fefefe',
     justifyContent: 'center',
     alignItems: 'center',
@@ -78,93 +75,93 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logoBackground: {
-    backgroundColor: '#7CB342', // Màu xanh lá cây chuẩn theo ảnh
-    paddingVertical: 35, // Tăng padding dọc logo background
-    paddingHorizontal: 90, // Tăng padding ngang logo background
-    borderTopLeftRadius: 60, // Bo tròn góc trên bên trái khác biệt
-    borderTopRightRadius: 60, // Bo tròn góc trên bên phải khác biệt
-    borderBottomLeftRadius: 30, // Bo tròn góc dưới bên trái
-    borderBottomRightRadius: 30, // Bo tròn góc dưới bên phải
+    backgroundColor: '#7CB342', 
+    paddingVertical: 35, 
+    paddingHorizontal: 90, 
+    borderTopLeftRadius: 60, 
+    borderTopRightRadius: 60, 
+    borderBottomLeftRadius: 30, 
+    borderBottomRightRadius: 30, 
     alignItems: 'center',
     justifyContent: 'center',
   },
   logoText: {
-    fontSize: 60, // Cỡ chữ PINSWAP lớn hơn chút
+    fontSize: 60, 
     fontWeight: 'bold',
     color: '#FFD700',
-    textShadowColor: 'rgba(0, 0, 0, 0.25)', // Bóng đổ tinh tế hơn
+    textShadowColor: 'rgba(0, 0, 0, 0.25)', 
     textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 3, // Bán kính bóng đổ nhỏ hơn
+    textShadowRadius: 3, 
   },
   subLogoText: {
-    fontSize: 22, // Cỡ chữ subtitle lớn hơn chút
-    color: '#fefefe', // Màu trắng ngà, gần giống ảnh
+    fontSize: 22, 
+    color: '#fefefe', 
     fontWeight: 'bold',
   },
   buttonGroup: {
     flexDirection: 'row',
-    marginBottom: 25, // Tăng khoảng cách button group xuống
+    marginBottom: 25, 
   },
   loginRegisterButton: {
-    backgroundColor: '#e0e0e0', // Màu xám nút Đăng ký/Đăng nhập chung
-    paddingVertical: 14, // Padding dọc nút Đăng ký/Đăng nhập
-    paddingHorizontal: 30, // Padding ngang nút Đăng ký/Đăng nhập
-    borderRadius: 30, // Bo tròn nút Đăng ký/Đăng nhập
-    marginHorizontal: 8, // Khoảng cách giữa 2 nút
+    backgroundColor: '#e0e0e0', 
+    paddingVertical: 14, 
+    paddingHorizontal: 30, 
+    borderRadius: 30, 
+    marginHorizontal: 8, 
   },
   loginRegisterButtonText: {
-    color: '#333', // Màu chữ nút Đăng ký/Đăng nhập đậm hơn chút
+    color: '#333', 
     fontWeight: 'bold',
-    fontSize: 17, // Cỡ chữ nút Đăng ký/Đăng nhập lớn hơn chút
+    fontSize: 17,
   },
-  loginButtonActive: { // Style riêng cho nút "ĐĂNG NHẬP" active
-    backgroundColor: '#7CB342', // Màu xanh lá cây nút "ĐĂNG NHẬP" active
+  loginButtonActive: { 
+    backgroundColor: '#7CB342', 
   },
-  loginButtonActiveText: { // Style riêng cho text nút "ĐĂNG NHẬP" active
-    color: '#fefefe', // Màu chữ trắng ngà nút "ĐĂNG NHẬP" active
+  loginButtonActiveText: { 
+    color: '#fefefe', 
   },
   formContainer: {
     width: '100%',
-    marginBottom: 25, // Tăng khoảng cách form xuống
+    marginBottom: 25, 
   },
   input: {
-    height: 55, // Chiều cao input lớn hơn
-    borderColor: '#ddd', // Viền input nhạt hơn
+    height: 55, 
+    borderColor: '#ddd', 
     borderWidth: 1,
-    marginBottom: 15, // Khoảng cách input xuống
-    paddingHorizontal: 20, // Padding ngang input
-    backgroundColor: '#fefefe', // Nền input trắng ngà
-    color: '#333', // Màu chữ input đậm hơn chút
-    fontSize: 18, // Cỡ chữ input lớn hơn chút
+    marginBottom: 15, 
+    paddingHorizontal: 20, 
+    backgroundColor: '#fefefe',
+    color: '#333', 
+    fontSize: 18, 
   },
   passwordInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: '#ddd', // Viền password container nhạt hơn
+    borderColor: '#ddd', 
     borderWidth: 1,
-    backgroundColor: '#fefefe', // Nền password container trắng ngà
+    backgroundColor: '#fefefe', 
   },
   passwordInput: {
     flex: 1,
-    height: 55, // Chiều cao password input lớn hơn
-    paddingHorizontal: 20, // Padding ngang password input
-    color: '#333', // Màu chữ password input đậm hơn chút
-    fontSize: 18, // Cỡ chữ password input lớn hơn chút
+    height: 55, 
+    paddingHorizontal: 20, 
+    color: '#333', 
+    fontSize: 18, 
   },
   eyeIcon: {
-    padding: 15, // Padding icon mắt lớn hơn
+    padding: 15, 
   },
   loginButton: {
-    backgroundColor: '#7CB342', // Màu xanh lá cây nút ĐĂNG NHẬP chính
-    paddingVertical: 16, // Padding dọc nút ĐĂNG NHẬP chính
-    borderRadius: 30, // Bo tròn nút ĐĂNG NHẬP chính
+    backgroundColor: '#7CB342', 
+    paddingVertical: 16, 
+    borderRadius: 30, 
     alignItems: 'center',
     justifyContent: 'center',
   },
   loginButtonText: {
-    color: '#fefefe', // Màu chữ trắng ngà nút ĐĂNG NHẬP chính
+    color: '#fefefe', 
     fontWeight: 'bold',
-    fontSize: 20, // Cỡ chữ nút ĐĂNG NHẬP chính lớn hơn
+    fontSize: 20, 
   },
   registerLinkContainer: {
     flexDirection: 'row',
@@ -172,16 +169,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   registerText: {
-    marginRight: 8, // Khoảng cách chữ "Vui lòng"
-    color: '#666', // Màu chữ "Vui lòng" xám hơn chút
-    fontSize: 16, // Cỡ chữ "Vui lòng" lớn hơn chút
+    marginRight: 8, 
+    color: '#666', 
+    fontSize: 16, 
   },
   registerButtonText: {
-    color: '#007BFF', // Màu xanh link Đăng ký (giữ nguyên)
+    color: '#007BFF', 
     fontWeight: 'bold',
-    fontSize: 16, // Cỡ chữ link Đăng ký lớn hơn chút
+    fontSize: 16, 
   },
   roundedInput: {
-    borderRadius: 30, // Bo tròn input và password container
+    borderRadius: 30, 
   },
 });
