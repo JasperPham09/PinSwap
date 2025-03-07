@@ -8,24 +8,36 @@ const ExplorePage = () => {
 
   return (
     <ScrollView style={[styles.container, { backgroundColor: theme === 'light' ? Colors.light.background : Colors.dark.background }]}>
-      <Text style={[styles.title, { color: theme === 'light' ? Colors.light.text : Colors.dark.text }]}>Explore Pin Swap</Text>
+      <Text style={[styles.title, { color: theme === 'light' ? Colors.light.text : Colors.dark.text }]}>LÝ THUYẾT PIN ĐIỆN</Text>
       <Text style={[styles.sectionTitle, { color: theme === 'light' ? Colors.light.text : Colors.dark.text }]}>
-        Welcome to Pin Swap!
+      I. CẶP OXI HÓA – KHỬ
       </Text>
       <Text style={[styles.content, { color: theme === 'light' ? Colors.light.secondary : Colors.dark.secondary }]}>
-        Pin Swap is designed to make battery swapping easy and convenient. Here’s how it works:
+        
+- Cặp oxi hóa khử là tập hợp gồm hai chất, chất oxi hóa và chất khử tương ứng (chất oxi hóa và chất khử liên hợp), trong đó chất oxi hóa được đặt phía trước, chất khử tương ứng đặt phía sau và cách nhau bằng một gạch dọc (Ox/Kh).
+VD: Fe2+/Fe, Ag+/Ag, Al3+/Al, 2H+/H2, Cl2/2Cl-, Fe3+/Fe2+, Cu2+/Cu, Cl2/2Cl-.
+- Trong một cặp oxi hóa khử thì độ mạnh của chất oxi hóa và của chất khử ngược nhau. Nghĩa là nếu chất oxi hóa rất mạnh thì chất khử tương ứng sẽ rất yếu và ngược lại, nếu chất khử rất mạnh thì chất oxi hóa tương ứng sẽ rất yếu.
+VD:
++ Với cặp K+/K thì do K có tính khử rất mạnh nên K+ có tính oxi hóa rất yếu.
++ Với cặp Au3+/Au thì do Au có tính khử rất yếu nên Au3+ có tính oxi hóa rất mạnh.
+
       </Text>
 
       <Text style={[styles.sectionTitle, { color: theme === 'light' ? Colors.light.text : Colors.dark.text }]}>
-        Finding Locations
+      II. ĐIỆN CỰC
       </Text>
       <Text style={[styles.content, { color: theme === 'light' ? Colors.light.secondary : Colors.dark.secondary }]}>
-        Use the map on the main screen to find nearby pin swap locations. Each location is marked with a pin,
-        and you can tap on it to see more details such as the address, opening hours, and available battery types.
+      - Hệ gồm một tấm kim loại nhúng trong dung dịch một muối của kim loại đó được gọi là điện cực.
++ Sơ đồ điện cực:  
++ Phản ứng điện cực: Mn+ + ne   M
+VD: Thanh kẽm tiếp xúc dung dịch ZnSO4
+•	Sơ đồ điện cực:  
+•	Phản ứng điện cực: Zn2+ + 2e   Zn
+
       </Text>
 
       <Text style={[styles.sectionTitle, { color: theme === 'light' ? Colors.light.text : Colors.dark.text }]}>
-        Swapping Batteries
+      III. THẾ ĐIỆN CỰC
       </Text>
       <Text style={[styles.content, { color: theme === 'light' ? Colors.light.secondary : Colors.dark.secondary }]}>
         Visit a pin swap location and ask the staff to assist you with swapping your batteries. Make sure to bring
@@ -33,7 +45,7 @@ const ExplorePage = () => {
       </Text>
 
       <Text style={[styles.sectionTitle, { color: theme === 'light' ? Colors.light.text : Colors.dark.text }]}>
-        Battery Types
+      IV. DÃY ĐIỆN HÓA
       </Text>
       <Text style={[styles.content, { color: theme === 'light' ? Colors.light.secondary : Colors.dark.secondary }]}>
         We support a wide range of battery types, including AA, AAA, C, D, and 9V. Check the location details to
@@ -41,14 +53,14 @@ const ExplorePage = () => {
       </Text>
 
       <Text style={[styles.sectionTitle, { color: theme === 'light' ? Colors.light.text : Colors.dark.text }]}>
-        Recycling
+      V. NGUYÊN TỐ ĐIỆN HÓA
       </Text>
       <Text style={[styles.content, { color: theme === 'light' ? Colors.light.secondary : Colors.dark.secondary }]}>
         We are committed to environmental sustainability. All collected batteries are recycled responsibly.
       </Text>
 
       <Text style={[styles.sectionTitle, { color: theme === 'light' ? Colors.light.text : Colors.dark.text }]}>
-        Contact Us
+        LIÊN HỆ VỚI CHÚNG TÔI
       </Text>
       <Text style={[styles.content, { color: theme === 'light' ? Colors.light.secondary : Colors.dark.secondary }]}>
         If you have any questions or feedback, please contact us at support@pinswap.com.
