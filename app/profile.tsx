@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const ProfilePage = () => {
+const LeaderboardPage = () => {
   return (
     <View>
-      <Text>Profile Page</Text>
+      <Text>Leaderboard Page</Text>
     </View>
   );
 };
 
-export default ProfilePage;
+export default LeaderboardPage;

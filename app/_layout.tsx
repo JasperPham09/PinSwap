@@ -2,39 +2,51 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { Platform } from 'react-native';
+import { HapticTab } from '@/components/HapticTab';
+import TabBarBackground from '@/components/ui/TabBarBackground';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 const TabLayout = () => {
     return (
         <Tabs>
             <Tabs.Screen
-                name="index" // Tên route cho trang chủ (index.tsx)
-                options={{
-                    tabBarLabel: 'Bản Đồ', // Label trên tab
-                    title: 'Điểm Đổi Pin', // Title trên header
-                    // tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-                }}
-            />
-            <Tabs.Screen
-                name="explore" // Tên route cho trang khám phá (explore.tsx)
-                options={{
-                    tabBarLabel: 'Khám Phá',
-                    title: 'Khám Phá',
-                    // tabBarIcon: ({ color, focused }) => ( ... Icon cho tab ... ),
-                }}
-            />
-            {/* TODO: Thêm các Tabs.Screen khác nếu cần (ví dụ: Trang yêu cầu đổi pin, trang cá nhân...) */}
-            <Tabs.Screen
                 name="(tabs)" // Tên route cho trang chủ (index.tsx)
                 options={{
                     tabBarLabel: 'Home', // Label trên tab
                     title: 'Trang chủ', // Title trên header
-                    tabBarIcon: ({ color, focused }) => {
-                        let iconName = focused ? 'home' : 'home-outline';
-                        return <IconSymbol name={iconName} size={24} color={color} />;
+                    tabBarIcon: ({ color, focused }) =>(<Icon size={28} name={focused ? 'home' : 'home-outline'} color={color} />),
+                        }
                       }
-                      
+            />
+            <Tabs.Screen
+                name="index" // Tên route cho trang chủ (index.tsx)
+                options={{
+                    tabBarLabel: 'Map', // Label trên tab
+                    title: 'Điểm Đổi Pin', // Title trên header
+                    tabBarIcon: ({ color, focused }) =>(<Icon size={28} name={focused ? 'map' : 'map-outline'} color={color} />),
                 }}
             />
+            <Tabs.Screen
+                name="leaderboard" // Tên route cho trang khám phá (explore.tsx)
+                options={{
+                    tabBarLabel: 'LeaderBoard',
+                    title: 'Bảng Xếp Hạng',
+                    tabBarIcon: ({ color, focused }) =>(<Icon size={28} name={focused ? 'trophy' : 'trophy-outline'} color={color} />),
+                }}
+            />
+            <Tabs.Screen
+                name="profile" // Tên route cho trang khám phá (explore.tsx)
+                options={{
+                    tabBarLabel: 'Profile',
+                    title: 'Tài khoản',
+                    tabBarIcon: ({ color, focused }) =>(<Icon size={28} name={focused ? 'person' : 'person-outline'} color={color} />),
+                }}
+            />
+            {/* TODO: Thêm các Tabs.Screen khác nếu cần (ví dụ: Trang yêu cầu đổi pin, trang cá nhân...) */}
         </Tabs>
     );
 };
