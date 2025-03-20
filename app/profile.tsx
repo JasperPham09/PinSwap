@@ -1,184 +1,83 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; 
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
-export default function App() {
+export default function ProfileScreen() {
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-       
-        <View style={styles.headerContainer}>
-          <View style={styles.logoBackground}>
-            <Text style={styles.logoText}>PINSWAP</Text>
-            <Text style={styles.subLogoText}>Vì Trái Đất xanh</Text>
-          </View>
+    <ScrollView style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        {/* <Image source={require('./assets/avatar.png')} style={styles.avatar} /> */}
+        <View style={styles.userInfo}>
+          <Text style={styles.username}>@Username</Text>
+          <Text style={styles.role}>Đội trưởng tái chế  🔹  Điểm: 38</Text>
+          <Text style={styles.stats}>Đang theo dõi: 16  |  Người theo dõi: 12  |  Xếp hạng: 10</Text>
         </View>
-
-        
-        <View style={styles.buttonGroup}>
-          <TouchableOpacity style={[styles.loginRegisterButton, styles.loginButtonActive]}> {/* Thêm style loginButtonActive cho nút Đăng nhập */}
-            <Text style={[styles.loginRegisterButtonText, styles.loginButtonActiveText]}>ĐĂNG NHẬP</Text> {/* Thêm style loginButtonActiveText */}
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.loginRegisterButton}>
-            <Text style={styles.loginRegisterButtonText}>ĐĂNG KÝ</Text>
-          </TouchableOpacity>
-        </View>
-
-        
-        <View style={styles.formContainer}>
-          <TextInput
-            style={[styles.input, styles.roundedInput]}
-            placeholder="Email hoặc số điện thoại"
-            placeholderTextColor="#999" 
-          />
-          <View style={[styles.passwordInputContainer, styles.roundedInput]}>
-            <TextInput
-              style={styles.passwordInput}
-              placeholder="Mật khẩu"
-              placeholderTextColor="#999" 
-              secureTextEntry={true}
-            />
-           
-          </View>
-          <TouchableOpacity style={styles.loginButton}>
-            <Text style={styles.loginButtonText}>ĐĂNG NHẬP</Text>
-          </TouchableOpacity>
-        </View>
-
-      
-        <View style={styles.registerLinkContainer}>
-          <Text style={styles.registerText}>Bạn chưa có tài khoản? Vui lòng</Text>
-          <TouchableOpacity>
-            <Text style={styles.registerButtonText}>Đăng ký</Text>
-          </TouchableOpacity>
-        </View>
+        <FontAwesome name="cog" size={24} color="white" style={styles.settingsIcon} />
       </View>
-    </SafeAreaView>
+
+      {/* Menu Icons */}
+      <View style={styles.menu}>
+        {menuItems.map((item, index) => (
+          <TouchableOpacity key={index} style={styles.menuItem}>
+            {/* <FontAwesome name={item.icon} size={24} color="black" /> */}
+            <Text style={styles.menuText}>{item.label}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {/* Bài đăng */}
+      {posts.map((post, index) => (
+        <View key={index} style={styles.post}>
+          <View style={styles.postHeader}>
+            {/* <Image source={require('./assets/avatar.png')} style={styles.postAvatar} /> */}
+            <View>
+              <Text style={styles.postUsername}>@Username</Text>
+              <Text style={styles.postTime}>{post.time}</Text>
+            </View>
+          </View>
+          <Image source={{ uri: post.image }} style={styles.postImage} />
+          <View style={styles.postActions}>
+            <FontAwesome name="heart-o" size={20} color="black" />
+            <FontAwesome name="comment-o" size={20} color="black" />
+            <FontAwesome name="share" size={20} color="black" />
+          </View>
+        </View>
+      ))}
+    </ScrollView>
   );
 }
 
+// Dữ liệu giả
+const menuItems = [
+  { label: 'Hướng dẫn', icon: 'book' },
+  { label: 'Yêu cầu thu gom', icon: 'truck' },
+  { label: 'Đổi quà', icon: 'gift' },
+  { label: 'Bài tập', icon: 'file-text' },
+];
+
+const posts = [
+  { time: '2 giờ trước', image: 'https://example.com/image1.jpg' },
+  { time: '3 ngày trước', image: 'https://example.com/image2.jpg' },
+];
+
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#fefefe', 
-  },
-  container: {
-    flex: 1,
-    paddingHorizontal: 25, 
-    backgroundColor: '#fefefe',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerContainer: {
-    marginBottom: 20,
-    width: '100%',
-    alignItems: 'center',
-  },
-  logoBackground: {
-    backgroundColor: '#7CB342', 
-    paddingVertical: 35, 
-    paddingHorizontal: 90, 
-    borderTopLeftRadius: 60, 
-    borderTopRightRadius: 60, 
-    borderBottomLeftRadius: 30, 
-    borderBottomRightRadius: 30, 
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logoText: {
-    fontSize: 60, 
-    fontWeight: 'bold',
-    color: '#FFD700',
-    textShadowColor: 'rgba(0, 0, 0, 0.25)', 
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 3, 
-  },
-  subLogoText: {
-    fontSize: 22, 
-    color: '#fefefe', 
-    fontWeight: 'bold',
-  },
-  buttonGroup: {
-    flexDirection: 'row',
-    marginBottom: 25, 
-  },
-  loginRegisterButton: {
-    backgroundColor: '#e0e0e0', 
-    paddingVertical: 14, 
-    paddingHorizontal: 30, 
-    borderRadius: 30, 
-    marginHorizontal: 8, 
-  },
-  loginRegisterButtonText: {
-    color: '#333', 
-    fontWeight: 'bold',
-    fontSize: 17,
-  },
-  loginButtonActive: { 
-    backgroundColor: '#7CB342', 
-  },
-  loginButtonActiveText: { 
-    color: '#fefefe', 
-  },
-  formContainer: {
-    width: '100%',
-    marginBottom: 25, 
-  },
-  input: {
-    height: 55, 
-    borderColor: '#ddd', 
-    borderWidth: 1,
-    marginBottom: 15, 
-    paddingHorizontal: 20, 
-    backgroundColor: '#fefefe',
-    color: '#333', 
-    fontSize: 18, 
-  },
-  passwordInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderColor: '#ddd', 
-    borderWidth: 1,
-    backgroundColor: '#fefefe', 
-  },
-  passwordInput: {
-    flex: 1,
-    height: 55, 
-    paddingHorizontal: 20, 
-    color: '#333', 
-    fontSize: 18, 
-  },
-  eyeIcon: {
-    padding: 15, 
-  },
-  loginButton: {
-    backgroundColor: '#7CB342', 
-    paddingVertical: 16, 
-    borderRadius: 30, 
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  loginButtonText: {
-    color: '#fefefe', 
-    fontWeight: 'bold',
-    fontSize: 20, 
-  },
-  registerLinkContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  registerText: {
-    marginRight: 8, 
-    color: '#666', 
-    fontSize: 16, 
-  },
-  registerButtonText: {
-    color: '#007BFF', 
-    fontWeight: 'bold',
-    fontSize: 16, 
-  },
-  roundedInput: {
-    borderRadius: 30, 
-  },
+  container: { flex: 1, backgroundColor: '#f5f5dc' },
+  header: { backgroundColor: '#4a7c59', padding: 20, flexDirection: 'row', alignItems: 'center' },
+//   avatar: { width: 60, height: 60, borderRadius: 30 },
+  userInfo: { marginLeft: 10, flex: 1 },
+  username: { fontSize: 18, color: '#fff', fontWeight: 'bold' },
+  role: { fontSize: 14, color: '#fff' },
+  stats: { fontSize: 12, color: '#ddd' },
+  settingsIcon: { marginLeft: 'auto' },
+  menu: { flexDirection: 'row', justifyContent: 'space-around', backgroundColor: '#fff', padding: 10 },
+  menuItem: { alignItems: 'center' },
+  menuText: { fontSize: 12, marginTop: 5 },
+  post: { backgroundColor: '#fff', marginVertical: 10, padding: 10, borderRadius: 10 },
+  postHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
+  postAvatar: { width: 40, height: 40, borderRadius: 20, marginRight: 10 },
+  postUsername: { fontSize: 14, fontWeight: 'bold' },
+  postTime: { fontSize: 12, color: 'gray' },
+  postImage: { width: '100%', height: 200, borderRadius: 10 },
+  postActions: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 },
 });

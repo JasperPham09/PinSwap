@@ -12,12 +12,16 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const TabLayout = () => {
     return (
-        <Tabs>
-            <Tabs.Screen
-                name="(tabs)" // Tên route cho trang chủ (index.tsx)
+        <Tabs
+            screenOptions={{
+                headerShown: false, // Ẩn header
+            }} >
+            <Tabs.Screen 
+                name="home" // Tên route cho trang chủ (index.tsx)
                 options={{
                     tabBarLabel: 'Home', // Label trên tab
-                    title: 'Trang chủ', // Title trên header
+                    title: 'PinSwap', // Title trên header
+                    tabBarActiveTintColor: "black",
                     tabBarIcon: ({ color, focused }) =>(<Icon size={28} name={focused ? 'home' : 'home-outline'} color={color} />),
                         }
                       }
@@ -27,6 +31,7 @@ const TabLayout = () => {
                 options={{
                     tabBarLabel: 'Map', // Label trên tab
                     title: 'Điểm Đổi Pin', // Title trên header
+                    tabBarActiveTintColor: "black",
                     tabBarIcon: ({ color, focused }) =>(<Icon size={28} name={focused ? 'map' : 'map-outline'} color={color} />),
                 }}
             />
@@ -35,14 +40,16 @@ const TabLayout = () => {
                 options={{
                     tabBarLabel: 'LeaderBoard',
                     title: 'Bảng Xếp Hạng',
+                    tabBarActiveTintColor: "black",
                     tabBarIcon: ({ color, focused }) =>(<Icon size={28} name={focused ? 'trophy' : 'trophy-outline'} color={color} />),
                 }}
             />
             <Tabs.Screen
-                name="profile" // Tên route cho trang khám phá (explore.tsx)
+                name="profile"
                 options={{
                     tabBarLabel: 'Profile',
                     title: 'Tài khoản',
+                    tabBarActiveTintColor: "black",
                     tabBarIcon: ({ color, focused }) =>(<Icon size={28} name={focused ? 'person' : 'person-outline'} color={color} />),
                 }}
             />
