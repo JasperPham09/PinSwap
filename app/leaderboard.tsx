@@ -1,4 +1,5 @@
 import React from 'react';
+// <<<<<<< HEA
 import { View, Text, Image, StyleSheet, FlatList, ScrollView } from 'react-native';
 
 export default function RankingScreen() {
@@ -66,4 +67,3 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', borderBottomWidth: 1, paddingVertical: 8 },
   cell: { flex: 1, textAlign: 'center' },
 });
-
