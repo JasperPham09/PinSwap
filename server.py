@@ -1,9 +1,9 @@
 import email
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from flask_bcrypt import Bcrypt
-from pymongo import MongoClient
-from flask import session
+from flask import Flask, request, jsonify # type: ignore
+from flask_cors import CORS # type: ignore
+from flask_bcrypt import Bcrypt # type: ignore
+from pymongo import MongoClient # type: ignore
+from flask import session # type: ignore
 
 app = Flask(__name__)
 CORS(app)  # Cho phép React Native gọi API từ server Flask
