@@ -6,14 +6,18 @@ import { Location } from '@/components/MapComponent'; // Import the Location int
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useRouter } from 'expo-router';
+import Modal from '@/components/ui/Modal'; // Import the Modal component
+import CollectionRequest from '@/app/home/collection-request'; // Corrected import path
 
 const HomePage = () => {
   const [pinLocations, setPinLocations] = useState<Location[]>([]); // Explicitly type pinLocations state
   const theme = useColorScheme() ?? 'light';
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    setPinLocations([
+    // Define the initial pin locations
+    const initialPinLocations: Location[] = [
       {
         id: 1,
         lat: 10.77,
@@ -36,14 +40,21 @@ const HomePage = () => {
         rating: 4.5,
         imageUrl: 'url_to_image_2.jpg'
       },
-    ]);
+    ];
+
+    // Set the pin locations
+    setPinLocations(initialPinLocations);
   }, []);
 
   return (
     <View style={[styles.container, { backgroundColor: theme === 'light' ? Colors.light.background : Colors.dark.background }]}>
       <Text style={[styles.title, { color: theme === 'light' ? Colors.light.text : Colors.dark.text }]}>Nearby Pin Swap Locations</Text>
       <MapComponent pinLocations={pinLocations} />
-      <Button title="Request Home Collection" onPress={() => router.push('/collectionRequest')} />
+      <Button title="Request Home Collection" onPress={() => setIsModalOpen(true)} />
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Request Home Collection">
+        <CollectionRequest />
+      </Modal>
     </View>
   );
 };
