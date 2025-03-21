@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import axios from "axios";
 
+
 import { NavigationProp } from '@react-navigation/native';
 
 const RegisterScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {   
@@ -22,10 +23,12 @@ const RegisterScreen = ({ navigation }: { navigation: NavigationProp<any> }) => 
         password,
       })
       .then((response) => {
+        console.log("Registration successful:", response.data);
         Alert.alert("Thành công", "Đăng ký thành công!");
-        navigation.navigate("Login"); // Chuyển sang màn hình đăng nhập
+        navigation.navigate("LoginScreen"); // Chuyển sang màn hình đăng nhập
       })
       .catch((error) => {
+        console.error("Registration error:", error);
         Alert.alert("Lỗi", error.response?.data?.message || "Có lỗi xảy ra!");
       });
   };
@@ -70,7 +73,7 @@ const RegisterScreen = ({ navigation }: { navigation: NavigationProp<any> }) => 
         Bạn đã có tài khoản?{" "}
         <Text
           style={{ fontWeight: "bold", color: "#3D6D4A" }}
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => navigation.navigate("LoginScreen")}
         >
           Đăng nhập
         </Text>
