@@ -2,12 +2,20 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import axios from "axios";
 import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+
+type RootStackParamList = {
+  Login: undefined;
+    // Add other routes here if needed
+  };
+
+type NavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
 
 const RegisterScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
 
   const handleRegister = () => {
     if (!name || !email || !password) {
