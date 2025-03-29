@@ -1,52 +1,63 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert, Image, StyleSheet, ScrollView } from "react-native";
 import axios from "axios";
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { FontAwesome } from '@expo/vector-icons';
+import ProfileScreen from "./profile";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import auth from "@react-native-firebase/auth";
 
 type RootStackParamList = {
+  Register: undefined;
   Login: undefined;
-    // Add other routes here if needed
-  };
+  Profile: undefined;
+};
 
-type NavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
+const Stack = createStackNavigator<RootStackParamList>();
 
 const RegisterScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const handleRegister = () => {
+  const saveUserData = async () => {
     if (!name || !email || !password) {
       Alert.alert("Lỗi", "Vui lòng nhập đầy đủ thông tin!");
       return;
     }
 
-    axios
-      .post("http://192.168.1.12:5000/register", {
-        name,
-        email,
-        password,
-      })
-      .then((response) => {
-        Alert.alert("Thành công", "Đăng ký thành công!");
-        navigation.navigate("Login"); // Chuyển sang màn hình đăng nhập
-      })
-      .catch((error) => {
-        Alert.alert("Lỗi", error.response?.data?.message || "Có lỗi xảy ra!");
-      });
+    try {
+      // Register user with Firebase Authentication
+      await auth().createUserWithEmailAndPassword(email, password);
+
+      // Save user data to the backend
+      await axios.post("http://192.168.1.12:5000/register", { name, email, password });
+
+      Alert.alert("Thành công", "Đăng ký thành công!");
+      navigation.navigate("Profile");
+    } catch (error: any) {
+      if (error.code === "auth/email-already-in-use") {
+        Alert.alert("Lỗi", "Email này đã được sử dụng!");
+      } else if (error.code === "auth/invalid-email") {
+        Alert.alert("Lỗi", "Email không hợp lệ!");
+      } else if (error.code === "auth/weak-password") {
+        Alert.alert("Lỗi", "Mật khẩu phải có ít nhất 6 ký tự!");
+      } else {
+        Alert.alert("Lỗi", error.message || "Có lỗi xảy ra!");
+      }
+    }
   };
 
   return (
-    <View style={{ flex: 1, padding: 20, justifyContent: "center", backgroundColor: "#F5F5DC" }}>
-      {/* Logo */}
-      <Text style={{ fontSize: 28, fontWeight: "bold", textAlign: "center", color: "#3D6D4A" }}>
-        PIN<Text style={{ color: "#FFD700" }}>SWAP</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>
+        PIN<Text style={styles.highlight}>SWAP</Text>
       </Text>
-      <Text style={{ textAlign: "center", color: "#3D6D4A", marginBottom: 30 }}>Vì Trái Đất xanh</Text>
+      <Text style={styles.subtitle}>Vì Trái Đất xanh</Text>
 
-      {/* Form đăng ký */}
       <TextInput
         style={styles.input}
         placeholder="Tên"
@@ -68,16 +79,14 @@ const RegisterScreen = () => {
         secureTextEntry
       />
 
-      {/* Nút đăng ký */}
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+      <TouchableOpacity style={styles.button} onPress={saveUserData}>
         <Text style={styles.buttonText}>ĐĂNG KÝ</Text>
       </TouchableOpacity>
 
-      {/* Chuyển sang màn hình đăng nhập */}
-      <Text style={{ textAlign: "center", marginTop: 10 }}>
+      <Text style={styles.footerText}>
         Bạn đã có tài khoản?{" "}
         <Text
-          style={{ fontWeight: "bold", color: "#3D6D4A" }}
+          style={styles.linkText}
           onPress={() => navigation.navigate("Login")}
         >
           Đăng nhập
@@ -87,8 +96,104 @@ const RegisterScreen = () => {
   );
 };
 
-// Style
-const styles = {
+const LoginScreen = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  return (
+    <View style={{ flex: 1, backgroundColor: '#F5F5E6', padding: 20 }}>
+      {/* Header */}
+      <View style={{ backgroundColor: '#4C7744', borderBottomLeftRadius: 50, borderBottomRightRadius: 50, padding: 40, alignItems: 'center' }}>
+        <Text style={{ fontSize: 32, fontWeight: 'bold', color: '#FFD700' }}>PIN</Text>
+        <Text style={{ fontSize: 32, fontWeight: 'bold', color: '#000' }}>SWAP</Text>
+        <Text style={{ color: '#FFD700', marginTop: 5 }}>Vì Trái Đất xanh</Text>
+      </View>
+
+      {/* Tabs */}
+      <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: 20 }}>
+        <TouchableOpacity style={{ backgroundColor: '#4C7744', padding: 10, borderRadius: 20, marginRight: 10 }}>
+          <Text style={{ color: 'white' }}>Đăng nhập</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{ borderWidth: 1, borderColor: '#4C7744', padding: 10, borderRadius: 20 }}>
+          <Text style={{ color: '#4C7744' }}>Đăng ký</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Input Fields */}
+      <TextInput 
+        style={{ borderWidth: 1, borderColor: '#4C7744', borderRadius: 10, padding: 10, marginBottom: 15 }}
+        placeholder='Email hoặc số điện thoại'
+        placeholderTextColor='#888'
+        value={email}
+        onChangeText={setEmail}
+      />
+      
+      <TextInput 
+        style={{ borderWidth: 1, borderColor: '#4C7744', borderRadius: 10, padding: 10, marginBottom: 15 }}
+        placeholder='Mật khẩu'
+        placeholderTextColor='#888'
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
+      
+      {/* Login Button */}
+      <TouchableOpacity style={{ backgroundColor: '#4C7744', padding: 15, borderRadius: 10, alignItems: 'center' }}>
+        <Text style={{ color: 'white', fontSize: 16 }}>ĐĂNG NHẬP</Text>
+      </TouchableOpacity>
+
+      {/* Sign up link */}
+      <Text style={{ textAlign: 'center', marginTop: 20 }}>Bạn chưa có tài khoản?{" "}
+        <Text style={{ fontWeight: 'bold', color: '#3D6D4A', textDecorationLine: "underline" }} onPress={() => navigation.navigate("Register")}>Vui lòng đăng ký</Text>
+      </Text>
+    </View>
+  );
+};
+
+export default function App() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{ title: "Đăng Ký" }}
+      />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ title: "Đăng Nhập" }}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ title: "Đăng Nhập" }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: "center",
+    backgroundColor: "#F5F5DC",
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#3D6D4A",
+  },
+  highlight: {
+    color: "#FFD700",
+  },
+  subtitle: {
+    textAlign: "center",
+    color: "#3D6D4A",
+    marginBottom: 30,
+  },
   input: {
     backgroundColor: "#fff",
     padding: 12,
@@ -101,13 +206,21 @@ const styles = {
     backgroundColor: "#3D6D4A",
     padding: 15,
     borderRadius: 10,
-    alignItems: "center" as "center",
+    alignItems: "center",
   },
   buttonText: {
     color: "#fff",
     fontSize: 16,
-    fontWeight: "bold" as "bold",
+    fontWeight: "bold",
   },
-};
+  footerText: {
+    textAlign: "center",
+    marginTop: 10,
+  },
+  linkText: {
+    fontWeight: "bold",
+    color: "#3D6D4A",
+    textDecorationLine: "underline",
+  },
+});
 
-export default RegisterScreen;
