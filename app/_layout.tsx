@@ -45,7 +45,7 @@ const TabLayout = () => {
                 }}
             />
             <Tabs.Screen
-                name="profile"
+                name="profile" // Tên route cho trang cá nhân (profile.tsx)
                 options={{
                     tabBarLabel: 'Profile',
                     title: 'Tài khoản',
@@ -54,6 +54,15 @@ const TabLayout = () => {
                 }}
             />
             {/* TODO: Thêm các Tabs.Screen khác nếu cần (ví dụ: Trang yêu cầu đổi pin, trang cá nhân...) */}
+            <Tabs.Screen
+                name="signup" // Tên route cho trang cá nhân (signup.tsx)
+                options={{
+                    tabBarLabel: 'signup',
+                    title: 'Tài khoản',
+                    tabBarActiveTintColor: "black",
+                    tabBarIcon: ({ color, focused }) =>(<Icon size={28} name={focused ? 'person' : 'person-outline'} color={color} />),
+                }}
+            />
         </Tabs>
     );
 };
