@@ -1,5 +1,10 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import {
+  initializeAuth,
+  getReactNativePersistence,
+} from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getFirestore } from "firebase/firestore";
 
 // Cấu hình Firebase
 const firebaseConfig = {
@@ -12,13 +17,12 @@ const firebaseConfig = {
   measurementId: "G-FTLJR6MHCZ",
 };
 
-// Khởi tạo app
 const app = initializeApp(firebaseConfig);
 
-// Dùng getAuth (tự động chọn persistence phù hợp với môi trường web/Expo)
-const auth = getAuth(app);
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
 
-// Khởi tạo Firestore
 const db = getFirestore(app);
 
-export { auth, db};
+export { auth, db };

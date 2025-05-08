@@ -1,4 +1,4 @@
-// /app/tabs/index.tsx
+// /app/tabs/map.tsx
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button, Alert, Platform, KeyboardAvoidingView, ScrollView } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
@@ -50,17 +50,17 @@ export default function MapScreen() {
         <MapView
           style={styles.map}
           initialRegion={{
-            latitude: 21.0278,
-            longitude: 105.8342,
+            latitude: 10.806279,
+            longitude: 106.646124,
             latitudeDelta: 0.05,
             longitudeDelta: 0.05,
           }}
         >
           {/* Ví dụ 1 điểm thu gom pin */}
           <Marker
-            coordinate={{ latitude: 21.0285, longitude: 105.8542 }}
+            coordinate={{ latitude: 10.806279, longitude: 106.646124 }}
             title="Điểm thu gom pin"
-            description="123 Đường Giả Định, Hà Nội"
+            description="1A Nguyễn Hiến Lê, Phường 13, Tân Bình, Hồ Chí Minh"
           />
         </MapView>
 

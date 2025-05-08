@@ -1,52 +1,90 @@
-// leaderboard.tsx
-import React from 'react';
-import { View, Text, Image, StyleSheet, FlatList, ScrollView } from 'react-native';
-
-const top3 = [
-  { rank: 2, name: 'Emma Bùi', title: 'Thủ lĩnh môi trường', score: 96, color: '#007bff' },
-  { rank: 1, name: 'Charles Tran', title: 'Tường quân xanh', score: 102, color: '#ffcc00' },
-  { rank: 3, name: 'Nguyễn Khang', title: 'Đội trưởng tái chế', score: 49, color: '#dc3545' }
-];
-
-const others = [
-  { rank: 4, name: 'Thu Hiền Đông', title: 'Đội trưởng tái chế', score: 48 },
-  { rank: 5, name: 'thuthanh2112', title: 'Đội trưởng tái chế', score: 47 },
-  // ... thêm dữ liệu tùy ý
-];
+// app/(tabs)/leaderboard.tsx
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { db } from '../../firebaseConfig';
+import { collection, query, orderBy, getDocs } from 'firebase/firestore';
 
 export default function RankingScreen() {
+  const [top3, setTop3] = useState<Array<{ id: string; rank: number; name?: string; title?: string; points: number }>>([]);
+  const [others, setOthers] = useState<Array<{ id: string; rank: number; name?: string; title?: string; points: number }>>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const q = query(collection(db, 'users'), orderBy('points', 'desc'));
+        const snapshot = await getDocs(q);
+        const users = snapshot.docs.map((doc, index) => {
+          const data = doc.data() as {
+            name?: string;
+            title?: string;
+            points: number;
+          };
+        
+          return {
+            id: doc.id,
+            rank: index + 1,
+            name: data.name,
+            title: data.title,
+            points: data.points,
+          };
+        });
+        
+
+        setTop3(users.slice(0, 3));
+        setOthers(users.slice(3));
+      } catch (err) {
+        console.error('Lỗi khi tải bảng xếp hạng:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLeaderboard();
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator style={{ marginTop: 50 }} size="large" />;
+  }
+
   return (
-    <ScrollView style={styles.container}>
-      {/* Tiêu đề */}
+    <View style={styles.container}>
       <Text style={styles.title}>BẢNG XẾP HẠNG</Text>
 
       {/* Top 3 */}
       <View style={styles.top3Container}>
-        {top3.map((user) => (
-          <View key={user.rank} style={[styles.topCard, { backgroundColor: user.color }]}>
-            <Text style={styles.rank}>Hạng {user.rank}</Text>
-            <View style={styles.avatarPlaceholder} />
-            <Text style={styles.name}>{user.name}</Text>
-            <Text style={styles.subtitle}>{user.title}</Text>
-            <Text style={styles.score}>{user.score} điểm</Text>
-          </View>
-        ))}
+        {top3.map((user) => {
+          let color = "#007bff"; // mặc định
+          if (user.rank === 1) color = "#ffcc00";
+          else if (user.rank === 2) color = "#007bff";
+          else if (user.rank === 3) color = "#dc3545";
+
+          return (
+            <View key={user.id} style={[styles.topCard, { backgroundColor: color }]}>
+              <Text style={styles.rank}>Hạng {user.rank}</Text>
+              <View style={styles.avatarPlaceholder} />
+              <Text style={styles.name}>{user.name || "Ẩn danh"}</Text>
+              <Text style={styles.subtitle}>{user.title || "Người dùng"}</Text>
+              <Text style={styles.score}>{user.points} điểm</Text>
+            </View>
+          );
+        })}
       </View>
 
-      {/* Danh sách còn lại */}
+      {/* Những người còn lại */}
       <FlatList
         data={others}
-        keyExtractor={(item) => item.rank.toString()}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.row}>
             <Text style={styles.cell}>{item.rank}</Text>
-            <Text style={styles.cell}>{item.name}</Text>
-            <Text style={styles.cell}>{item.title}</Text>
-            <Text style={styles.cell}>{item.score}</Text>
+            <Text style={styles.cell}>{item.name || "Ẩn danh"}</Text>
+            <Text style={styles.cell}>{item.title || "Người dùng"}</Text>
+            <Text style={styles.cell}>{item.points}</Text>
           </View>
         )}
       />
-    </ScrollView>
+    </View>
   );
 }
 

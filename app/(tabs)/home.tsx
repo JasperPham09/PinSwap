@@ -1,5 +1,5 @@
 // home.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,59 +11,83 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+// import { opacity } from 'react-native-reanimated/lib/typescript/Colors';
+import { useRouter, router } from 'expo-router';
+import { db } from "../../firebaseConfig";
+import {
+  collection,
+  getDocs,
+  query,
+  orderBy,
+  Timestamp,
+} from "firebase/firestore";
 
-const posts = [
-  {
-    id: '1',
-    user: '@Nguyễn Linh',
-    time: '8 giờ trước',
-    caption: 'Hãy cùng nhau thu gom pin và bảo vệ môi trường!',
-    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/376/618/products/pin-tieu-aaa-danh-cho-can-dien-tu.jpg?v=1610963294877',
-    likes: 18,
-    comments: 3,
-  },
-  {
-    id: '2',
-    user: '@Emma Bùi',
-    time: '2 ngày trước',
-    caption: 'Đừng vứt pin vào thùng rác, hãy đến điểm thu gom gần nhất!',
-    image: 'https://cdn.s99.vn/ss1/prod/product/4b351d4513f239e4fe2a6319ebf0e159.jpg',
-    likes: 10,
-    comments: 2,
-  },
-];
+type Post = {
+  id: string;
+  name: string;
+  content: string;
+  createdAt: Timestamp;
+  comments: string;
+  // image:,
+  likes: string;
+  caption: string;
+  users: string;
+};
+
+
 
 export default function HomeScreen() {
   const [search, setSearch] = useState('');
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+        const postData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as Post[];
+        setPosts(postData);
+      } catch (error) {
+        console.error("Lỗi khi tải bài viết:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  
   const filteredPosts = posts.filter(
     (post) =>
-      post.caption.toLowerCase().includes(search.toLowerCase()) ||
-      post.user.toLowerCase().includes(search.toLowerCase())
+      (post.caption || '').toLowerCase().includes(search.toLowerCase()) ||
+    (post.name || '').toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.logo}>PINSWAP</Text>
-        <View style={styles.headerIcons}>
+        <Text style={styles.logo}>PINSWAP</Text>       
+        <TouchableOpacity style={styles.announcement}>
           <Ionicons name="notifications-outline" size={24} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.search}>
           <Ionicons name="search-outline" size={24} color="white" />
-        </View>
+        </TouchableOpacity>
       </View>
 
       {/* Search Bar */}
-      <View style={styles.searchBar}>
+      <TouchableOpacity style={styles.searchBar} onPress={() => router.push("/(screen)/post")}>
         <Ionicons name="person-circle" size={30} color="gray" />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Chia sẻ"
-          placeholderTextColor="gray"
-          value={search}
-          onChangeText={setSearch}
-        />
-      </View>
+          <Text style={{opacity: 0.5, marginLeft: 5}}>
+            Chia sẻ
+          </Text>
+      </TouchableOpacity>
 
       {/* Tabs */}
       <View style={styles.tabs}>
@@ -82,11 +106,14 @@ export default function HomeScreen() {
         renderItem={({ item }) => (
           <View style={styles.post}>
             <View style={styles.postHeader}>
-              <Text style={styles.username}>{item.user}</Text>
-              <Text style={styles.time}>{item.time}</Text>
+              <Text style={styles.username}>{item.name || "Ẩn danh"}</Text>
+              <Text style={styles.time}>
+              {item.createdAt?.toDate ? item.createdAt.toDate().toLocaleString() : "Đang cập nhật"}
+            </Text>
+
             </View>
-            <Text style={styles.caption}>{item.caption}</Text>
-            <Image source={{ uri: item.image }} style={styles.postImage} />
+            <Text style={styles.caption}>{item.content}</Text>
+            {/* <Image source={{ uri: item.image }} style={styles.postImage} /> */}
             <View style={styles.postActions}>
               <Ionicons name="heart-outline" size={20} />
               <Text style={styles.actionText}>{item.likes}</Text>
@@ -108,15 +135,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 15,
     backgroundColor: '#4a6f43',
+    alignItems: 'center',
   },
 
   logo: {
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+    marginLeft: 125,
   },
 
-  headerIcons: { flexDirection: 'row', gap: 15 },
+  announcement: { flexDirection: 'row', gap: 15, marginRight: -40 },
+
+  search: { flexDirection: 'row', gap: 15},
 
   searchBar: {
     flexDirection: 'row',
@@ -127,7 +158,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 
-  searchInput: { flex: 1, marginLeft: 10 },
+  // searchInput: { flex: 1, marginLeft: 10 },
 
   tabs: {
     flexDirection: 'row',

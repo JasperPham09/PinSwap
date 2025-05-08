@@ -12,6 +12,7 @@ import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { auth } from "../../firebaseConfig";
 import { signOut } from "firebase/auth";
+import { useRouter, router } from "expo-router";
 
 type RootStackParamList = {
   Register: undefined;
@@ -58,7 +59,8 @@ export default function ProfileScreen() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigation.navigate("Login");
+      Alert.alert("Đăng xuất thành công!", "Bạn đã đăng xuất khỏi tài khoản.");
+      router.replace("/(auth)/login");
     } catch (error: any) {
       Alert.alert("Lỗi", error.message || "Không thể đăng xuất!");
     }
@@ -106,7 +108,7 @@ export default function ProfileScreen() {
       {/* Menu */}
       <View style={styles.menu}>
         <MenuItem icon="book-outline" label="Hướng dẫn" onPress={() => handleMenuPress("Hướng dẫn")} />
-        <MenuItem icon="home-outline" label="Yêu cầu thu gom" onPress={() => navigation.navigate("Map")} />
+        <MenuItem icon="home-outline" label="Bản đồ" onPress={() => router.push("/(tabs)/map")} />
         <MenuItem icon="gift-outline" label="Đổi quà" onPress={() => handleMenuPress("Đổi quà")} />
         <MenuItem icon="clipboard-outline" label="Bài học" onPress={() => handleMenuPress("Bài học")} />
         <MenuItem icon="time-outline" label="Lịch sử" onPress={() => handleMenuPress("Lịch sử")} />

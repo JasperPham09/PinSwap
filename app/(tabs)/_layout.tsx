@@ -1,6 +1,6 @@
 // app/tabs/_layout.tsx
 import { Tabs } from "expo-router";
-import Icon from "react-native-vector-icons/Ionicons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function TabLayout() {
   return (
@@ -10,7 +10,7 @@ export default function TabLayout() {
         options={{
           tabBarLabel: "Trang chủ",
           tabBarIcon: ({ color, focused }) => (
-            <Icon name={focused ? "home" : "home-outline"} size={24} color={color} />
+            <Ionicons name={focused ? "home" : "home-outline"} size={24} color={color} />
           ),
         }}
       />
@@ -19,7 +19,7 @@ export default function TabLayout() {
         options={{
           tabBarLabel: "Bản đồ",
           tabBarIcon: ({ color, focused }) => (
-            <Icon name={focused ? "map" : "map-outline"} size={24} color={color} />
+            <Ionicons name={focused ? "map" : "map-outline"} size={24} color={color} />
           ),
         }}
       />
@@ -28,7 +28,7 @@ export default function TabLayout() {
         options={{
           tabBarLabel: "Bảng xếp hạng",
           tabBarIcon: ({ color, focused }) => (
-            <Icon name={focused ? "trophy" : "trophy-outline"} size={24} color={color} />
+            <Ionicons name={focused ? "trophy" : "trophy-outline"} size={24} color={color} />
           ),
         }}
       />
@@ -37,7 +37,7 @@ export default function TabLayout() {
         options={{
           tabBarLabel: "Tài khoản",
           tabBarIcon: ({ color, focused }) => (
-            <Icon name={focused ? "person" : "person-outline"} size={24} color={color} />
+            <Ionicons name={focused ? "person" : "person-outline"} size={24} color={color} />
           ),
         }}
       />

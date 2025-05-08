@@ -11,6 +11,8 @@ import {
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import { useRouter } from "expo-router";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
 export default function RegisterScreen() {
   const router = useRouter();
@@ -23,24 +25,32 @@ export default function RegisterScreen() {
       Alert.alert("Lỗi", "Vui lòng điền đầy đủ thông tin!");
       return;
     }
-
+  
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       Alert.alert("Lỗi", "Email không hợp lệ!");
       return;
     }
-
+  
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, {
         displayName: name,
       });
-
+  
+      // ⬇️ Ghi thêm vào Firestore
+      await setDoc(doc(db, "users", userCredential.user.uid), {
+        name: name,
+        title: "Người dùng mới",
+        points: 0,
+        createdAt: new Date(),
+      });
+  
       Alert.alert("Thành công", "Đăng ký thành công!");
       setName("");
       setEmail("");
       setPassword("");
-      router.replace("/(tabs)/home"); // hoặc bất kỳ screen chính nào sau khi đăng ký
+      router.replace("/(tabs)/home");
     } catch (error: any) {
       const code = error.code;
       if (code === "auth/email-already-in-use") {
@@ -54,6 +64,7 @@ export default function RegisterScreen() {
       }
     }
   };
+  
 
   return (
     <View style={styles.container}>
@@ -92,7 +103,7 @@ export default function RegisterScreen() {
         Đã có tài khoản?{" "}
         <Text
           style={styles.linkText}
-          onPress={() => router.push("/auth/login")}
+          onPress={() => router.push("/(auth)/login")}
         >
           Đăng nhập
         </Text>
