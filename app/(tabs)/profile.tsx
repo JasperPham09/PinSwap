@@ -107,7 +107,7 @@ export default function ProfileScreen() {
 
       {/* Menu */}
       <View style={styles.menu}>
-        <MenuItem icon="book-outline" label="Hướng dẫn" onPress={() => handleMenuPress("Hướng dẫn")} />
+        <MenuItem icon="book-outline" label="Hướng dẫn" onPress={() => router.push("/(screen)/guide")} />
         <MenuItem icon="home-outline" label="Bản đồ" onPress={() => router.push("/(tabs)/map")} />
         <MenuItem icon="gift-outline" label="Đổi quà" onPress={() => handleMenuPress("Đổi quà")} />
         <MenuItem icon="clipboard-outline" label="Bài học" onPress={() => handleMenuPress("Bài học")} />
