@@ -27,7 +27,7 @@ export default function LearningScreen() {
                 {"    "}- Nguyên tắc sắp xếp từ trái sang phải: {"\n"}
                 {"        "}+ Tính khử kim loại giảm{"\n"}
                 {"        "}+ Tính oxi hóa ion kim loại tăng{"\n"}
-            <Image source={require('../../assets/images/oxhiontang.png')} style={{ width: 20, height: 20, marginTop: 10 }} />
+            <Image source={require('../../assets/images/oxhiontang.png')} style={{ width: 300, height: 20, marginTop: 10 }} />
             </Text>
           <View style={styles.iconBottomRight}>
             {/* <Entypo name="medal" size={24} color="#4a6f43" /> */}

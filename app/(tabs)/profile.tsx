@@ -1,5 +1,4 @@
-// profile.tsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,53 +6,73 @@ import {
   StyleSheet,
   FlatList,
   Alert,
-  Platform, 
+  Platform,
   ActionSheetIOS,
+  Image,
 } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { auth } from "../../firebaseConfig";
 import { signOut } from "firebase/auth";
-import { useRouter, router } from "expo-router";
+import { useRouter } from "expo-router";
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  onSnapshot,
+} from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
-type RootStackParamList = {
-  Register: undefined;
-  Login: undefined;
-  Profile: undefined;
-  Map: undefined;
+type Post = {
+  id: string;
+  caption: string;
+  createdAt: any;
+  image?: string;
+  likes: number;
+  comments: number;
 };
 
-const posts = [
-  {
-    id: "1",
-    username: "@Username",
-    time: "2 giờ trước",
-    caption: "Chung tay bảo vệ môi trường 🌎",
-    likes: 4,
-    comments: 1,
-    saves: 1,
-  },
-  {
-    id: "2",
-    username: "@Username",
-    time: "3 ngày trước",
-    caption: "Thu gom pin cũ - Bảo vệ trái đất! 🔋",
-    likes: 6,
-    comments: 0,
-    saves: 3,
-  },
-];
-
 export default function ProfileScreen() {
-  // const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const router = useRouter();
   const user = auth.currentUser;
   const displayName = user?.displayName || "@Username";
   const email = user?.email || "";
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const q = query(
+      collection(db, "posts"),
+      where("userId", "==", user.uid),
+      orderBy("createdAt", "desc")
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const userPosts = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as Post[];
+      setPosts(userPosts);
+    });
+
+    return unsubscribe;
+  }, [user]);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      Alert.alert("Đăng xuất thành công!", "Bạn đã đăng xuất khỏi tài khoản.");
+      router.replace("/(auth)/login");
+    } catch (error: any) {
+      Alert.alert("Lỗi", error.message || "Không thể đăng xuất!");
+    }
+  };
 
   const handleSettingsPress = () => {
     const options = ["Chỉnh sửa hồ sơ", "Cài đặt thông báo", "Đăng xuất", "Hủy"];
     const cancelButtonIndex = 3;
-  
+
     if (Platform.OS === "ios") {
       ActionSheetIOS.showActionSheetWithOptions(
         {
@@ -99,28 +118,28 @@ export default function ProfileScreen() {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      Alert.alert("Đăng xuất thành công!", "Bạn đã đăng xuất khỏi tài khoản.");
-      router.replace("/(auth)/login");
-    } catch (error: any) {
-      Alert.alert("Lỗi", error.message || "Không thể đăng xuất!");
-    }
-  };
-
-  const renderPostItem = ({ item }: { item: typeof posts[number] }) => (
+  const renderPostItem = ({ item }: { item: Post }) => (
     <View style={styles.postCard}>
-      <Text style={styles.username}>{item.username}</Text>
-      <Text style={styles.time}>{item.time}</Text>
+      <Text style={styles.username}>{displayName}</Text>
+      <Text style={styles.time}>
+        {item.createdAt?.toDate().toLocaleString() ?? ""}
+      </Text>
       <Text style={styles.caption}>{item.caption}</Text>
+      {item.image && (
+        <Image
+          source={{ uri: item.image }}
+          style={{ width: "100%", height: 200, borderRadius: 10, marginTop: 10 }}
+        />
+      )}
       <View style={styles.iconRow}>
         <Ionicons name="heart-outline" size={20} />
         <Text style={styles.iconText}>{item.likes}</Text>
-        <Ionicons name="chatbubble-outline" size={20} style={styles.iconSpacing} />
+        <Ionicons
+          name="chatbubble-outline"
+          size={20}
+          style={styles.iconSpacing}
+        />
         <Text style={styles.iconText}>{item.comments}</Text>
-        <Ionicons name="bookmark-outline" size={20} style={styles.iconSpacing} />
-        <Text style={styles.iconText}>{item.saves}</Text>
       </View>
     </View>
   );
@@ -147,13 +166,13 @@ export default function ProfileScreen() {
       {/* Menu */}
       <View style={styles.menu}>
         <MenuItem icon="book-outline" label="Hướng dẫn" onPress={() => router.push("/(screen)/guide")} />
-        <MenuItem icon="map-outline" label="Bản đồ" onPress={() => router.push("/(tabs)/map")} />
-        <MenuItem icon="gift-outline" label="Đổi quà" onPress={() => Alert.alert("Bạn đã đổi được \niPhone 16 Pro Max")} />
+        <MenuItem icon="leaf-outline" label="Yêu cầu thu gom" onPress={() => router.push("/(screen)/request")} />
+        <MenuItem icon="gift-outline" label="Đổi quà" onPress={() => Alert.alert("🎁", "Bạn đã đổi được iPhone 16 Pro Max")} />
         <MenuItem icon="clipboard-outline" label="Bài học" onPress={() => router.push("/(screen)/learning")} />
-        <MenuItem icon="time-outline" label="Lịch sử" onPress={() => Alert.alert("Phạm Quốc Bảo")} />
+        <MenuItem icon="time-outline" label="Lịch sử" onPress={() => Alert.alert("🕘", "Phạm Quốc Bảo 10A3")} />
       </View>
 
-      {/* Bài đăng */}
+      {/* Danh sách bài đăng cá nhân */}
       <FlatList
         data={posts}
         renderItem={renderPostItem}
@@ -205,11 +224,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 5,
   },
-  logoutText: {
-    color: "#fff",
-    textAlign: "center",
-    fontWeight: "bold",
-  },
   menu: {
     backgroundColor: "#CFE5C9",
     flexDirection: "row",
@@ -235,7 +249,7 @@ const styles = StyleSheet.create({
   },
   username: { fontWeight: "bold" },
   time: { color: "#666", fontSize: 12 },
-  caption: { marginTop: 5, marginBottom: 10 },
+  caption: { marginTop: 5 },
   iconRow: {
     flexDirection: "row",
     marginTop: 10,
