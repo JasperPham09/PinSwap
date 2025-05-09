@@ -29,7 +29,6 @@ export default function RankingScreen() {
             points: data.points,
           };
         });
-        
 
         setTop3(users.slice(0, 3));
         setOthers(users.slice(3));

@@ -13,6 +13,7 @@ import {
 import { auth, db } from "../../firebaseConfig";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { router } from "expo-router";
+import { Ionicons, Entypo, FontAwesome5 } from '@expo/vector-icons';
 
 export default function PostScreen() {
   const [postContent, setPostContent] = useState("");
@@ -60,7 +61,11 @@ export default function PostScreen() {
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       style={styles.container}
-    >
+    >   
+    <TouchableOpacity onPress={() => router.push("/(tabs)/home")}>
+        <Ionicons name="arrow-back" size={24} color="#4C7744" />
+    </TouchableOpacity>
+
       <Text style={styles.title}>Đăng bài viết</Text>
 
       <TextInput
@@ -97,6 +102,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
+    marginTop: 20,
   },
   input: {
     backgroundColor: "#fff",

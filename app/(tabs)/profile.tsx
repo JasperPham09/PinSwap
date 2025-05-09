@@ -7,6 +7,8 @@ import {
   StyleSheet,
   FlatList,
   Alert,
+  Platform, 
+  ActionSheetIOS,
 } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
@@ -43,17 +45,58 @@ const posts = [
 ];
 
 export default function ProfileScreen() {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  // const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const user = auth.currentUser;
   const displayName = user?.displayName || "@Username";
   const email = user?.email || "";
 
   const handleSettingsPress = () => {
-    Alert.alert("⚙️", "Bạn đã nhấn Cài đặt!");
-  };
-
-  const handleMenuPress = (label: string) => {
-    Alert.alert(`📚`, `Bạn đã chọn: ${label}`);
+    const options = ["Chỉnh sửa hồ sơ", "Cài đặt thông báo", "Đăng xuất", "Hủy"];
+    const cancelButtonIndex = 3;
+  
+    if (Platform.OS === "ios") {
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          options,
+          cancelButtonIndex,
+          destructiveButtonIndex: 2,
+          title: "Tùy chọn cài đặt",
+        },
+        (buttonIndex) => {
+          switch (buttonIndex) {
+            case 0:
+              Alert.alert("Chỉnh sửa hồ sơ");
+              break;
+            case 1:
+              Alert.alert("Cài đặt thông báo");
+              break;
+            case 2:
+              handleLogout();
+              break;
+          }
+        }
+      );
+    } else {
+      Alert.alert("Tùy chọn cài đặt", "", [
+        {
+          text: "Chỉnh sửa hồ sơ",
+          onPress: () => Alert.alert("🔧", "Chỉnh sửa hồ sơ"),
+        },
+        // {
+        //   text: "Cài đặt thông báo",
+        //   onPress: () => Alert.alert("🔔", "Cài đặt thông báo"),
+        // },
+        {
+          text: "Đăng xuất",
+          style: "destructive",
+          onPress: () => handleLogout(),
+        },
+        {
+          text: "Hủy",
+          style: "cancel",
+        },
+      ]);
+    }
   };
 
   const handleLogout = async () => {
@@ -98,10 +141,6 @@ export default function ProfileScreen() {
           <Text style={styles.stats}>
             Điểm: 38 | Theo dõi: 16 | Người theo dõi: 12 | Xếp hạng: 10
           </Text>
-
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutText}>Đăng xuất</Text>
-          </TouchableOpacity>
         </View>
       </View>
 
@@ -109,9 +148,9 @@ export default function ProfileScreen() {
       <View style={styles.menu}>
         <MenuItem icon="book-outline" label="Hướng dẫn" onPress={() => router.push("/(screen)/guide")} />
         <MenuItem icon="map-outline" label="Bản đồ" onPress={() => router.push("/(tabs)/map")} />
-        <MenuItem icon="gift-outline" label="Đổi quà" onPress={() => handleMenuPress("Đổi quà")} />
+        <MenuItem icon="gift-outline" label="Đổi quà" onPress={() => Alert.alert("Bạn đã đổi được \niPhone 16 Pro Max")} />
         <MenuItem icon="clipboard-outline" label="Bài học" onPress={() => router.push("/(screen)/learning")} />
-        <MenuItem icon="time-outline" label="Lịch sử" onPress={() => handleMenuPress("Lịch sử")} />
+        <MenuItem icon="time-outline" label="Lịch sử" onPress={() => Alert.alert("Phạm Quốc Bảo")} />
       </View>
 
       {/* Bài đăng */}
@@ -165,12 +204,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
     marginTop: 5,
-  },
-  logoutButton: {
-    marginTop: 10,
-    backgroundColor: "#D9534F",
-    padding: 10,
-    borderRadius: 8,
   },
   logoutText: {
     color: "#fff",

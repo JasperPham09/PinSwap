@@ -34,8 +34,6 @@ type Post = {
   users: string;
 };
 
-
-
 export default function HomeScreen() {
   const [search, setSearch] = useState('');
   const [posts, setPosts] = useState<Post[]>([]);
@@ -65,7 +63,7 @@ export default function HomeScreen() {
   const filteredPosts = posts.filter(
     (post) =>
       (post.caption || '').toLowerCase().includes(search.toLowerCase()) ||
-    (post.name || '').toLowerCase().includes(search.toLowerCase())
+      (post.name || '').toLowerCase().includes(search.toLowerCase())
   );
 
   return (
