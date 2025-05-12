@@ -10,51 +10,27 @@ export default function LearningScreen() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.push("/(screen)/lythuyet")}>
+        <TouchableOpacity onPress={() => router.push("/(tabs)/profile")}>
           <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>LÝ THUYẾT PIN ĐIỆN</Text>
+        <Text style={styles.headerTitle}>BÀI HỌC</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.card}>
-            <TouchableOpacity onPress={() => router.push("/(screen)/I")}>
-                <Text style={styles.text1}>I. CẶP OXI HÓA – KHỬ</Text>
+            <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/lythuyet")}>
+                <Text style={styles.text1}>LÝ THUYẾT</Text>
             </TouchableOpacity>
             <View style={styles.iconBottomRight}>
                 <Entypo name="book" size={40} color="#4a6f43" />
             </View>
         </View> 
         <View style={styles.card}>
-            <TouchableOpacity onPress={() => router.push("/(screen)/II")}>
-                <Text style={styles.text1}>II. ĐIỆN CỰC</Text>
+            <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/baitap")}>
+                <Text style={styles.text1}>BÀI TẬP</Text>
             </TouchableOpacity>
             <View style={styles.iconBottomRight}>
-                <Entypo name="book" size={40} color="#4a6f43" />
-            </View>
-        </View> 
-        <View style={styles.card}>
-            <TouchableOpacity onPress={() => router.push("/(screen)/III")}>
-                <Text style={styles.text1}>III. THẾ ĐIỆN CỰC</Text>
-            </TouchableOpacity>
-            <View style={styles.iconBottomRight}>
-                <Entypo name="book" size={40} color="#4a6f43" />
-            </View>
-        </View> 
-        <View style={styles.card}>
-            <TouchableOpacity onPress={() => router.push("/(screen)/IV")}>
-                <Text style={styles.text1}>IV. DÃY ĐIỆN HÓA</Text>
-            </TouchableOpacity>
-            <View style={styles.iconBottomRight}>
-                <Entypo name="book" size={40} color="#4a6f43" />
-            </View>
-        </View> 
-        <View style={styles.card}>
-            <TouchableOpacity onPress={() => router.push("/(screen)/V")}>
-                <Text style={styles.text1}>V. NGUYÊN TỐ ĐIỆN HÓA</Text>
-            </TouchableOpacity>
-            <View style={styles.iconBottomRight}>
-                <Entypo name="book" size={40} color="#4a6f43" />
+                <Entypo name="clipboard" size={35} color="#4a6f43" />
             </View>
         </View> 
       </ScrollView>

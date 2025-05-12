@@ -10,7 +10,7 @@ export default function LearningScreen() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.push("/(screen)/lythuyet")}>
+        <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/lythuyet")}>
           <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>PIN ĐIỆN VÀ MÔI TRƯỜNG</Text>
@@ -18,7 +18,7 @@ export default function LearningScreen() {
 
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.card}>
-            <TouchableOpacity onPress={() => router.push("/(screen)/I")}>
+            <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/I")}>
                 <Text style={styles.text1}>Phần 1: Tổng quan về pin điện</Text>
             </TouchableOpacity>
             <View style={styles.iconBottomRight}>
@@ -26,7 +26,7 @@ export default function LearningScreen() {
             </View>
         </View> 
         <View style={styles.card}>
-            <TouchableOpacity onPress={() => router.push("/(screen)/II")}>
+            <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/II")}>
                 <Text style={styles.text1}>Phần 2: Tác động của pin điện đến môi trường</Text>
             </TouchableOpacity>
             <View style={styles.iconBottomRight}>
@@ -34,7 +34,7 @@ export default function LearningScreen() {
             </View>
         </View> 
         <View style={styles.card}>
-            <TouchableOpacity onPress={() => router.push("/(screen)/III")}>
+            <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/III")}>
                 <Text style={styles.text1}>Phần 3: Xử lý và tái chế pin điện</Text>
             </TouchableOpacity>
             <View style={styles.iconBottomRight}>
@@ -42,7 +42,7 @@ export default function LearningScreen() {
             </View>
         </View> 
         <View style={styles.card}>
-            <TouchableOpacity onPress={() => router.push("/(screen)/III")}>
+            <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/III")}>
                 <Text style={styles.text1}>Phần 4: Giải pháp giảm thiểu tác động của pin điện</Text>
             </TouchableOpacity>
             <View style={styles.iconBottomRight}>
@@ -50,7 +50,7 @@ export default function LearningScreen() {
             </View>
         </View> 
         <View style={styles.card}>
-            <TouchableOpacity onPress={() => router.push("/(screen)/III")}>
+            <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/III")}>
                 <Text style={styles.text1}>Phần 5: Ứng dụng thực tế và các dự án đổi mới sáng tạo</Text>
             </TouchableOpacity>
             <View style={styles.iconBottomRight}>

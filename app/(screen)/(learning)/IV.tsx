@@ -10,32 +10,31 @@ export default function LearningScreen() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.push("/(screen)/lythuyetpindien")}>
+        <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/lythuyetpindien")}>
           <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>LÝ THUYẾT PIN ĐIỆN</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.card}>
+         {/* III */}
+         <View style={styles.card}>
           <View style={styles.label}>
-            <Text style={styles.labelText}>II. ĐIỆN CỰC</Text>
+            <Text style={styles.labelText}>IV. DÃY ĐIỆN HÓA</Text>
           </View>
-          <Text style={styles.text}>
-          - Hệ gồm một tấm kim loại nhúng trong dung dịch một muối của kim loại đó được gọi là điện cực.{"\n"}
-            + Sơ đồ điện cực: M^n+|M{"\n"} 
-            + Phản ứng điện cực: M^n+ + ne -{">"}  M{"\n"}
-                VD: Thanh kẽm tiếp xúc dung dịch ZnSO4{"\n"}
-                •	Sơ đồ điện cực: Zn^2+|Zn {"\n"}
-                •	Phản ứng điện cực: Zn^2+ + 2e -{">"} Zn{"\n"}
-          </Text>
+            <Text style={styles.text}>
+            1. Dãy điện hóa của kim loại {"\n"}
+                {"    "}- Nguyên tắc sắp xếp từ trái sang phải: {"\n"}
+                {"        "}+ Tính khử kim loại giảm{"\n"}
+                {"        "}+ Tính oxi hóa ion kim loại tăng{"\n"}
+            <Image source={require('../../../assets/images/oxhiontang.png')} style={{ width: 300, height: 20, marginTop: 10 }} />
+            </Text>
           <View style={styles.iconBottomRight}>
-            <FontAwesome5 name="battery-full" size={20} color="#4a6f43" />
+            {/* <Entypo name="medal" size={24} color="#4a6f43" /> */}
           </View>
         </View>
       </ScrollView>
     </View>
-    
   );
 }
 

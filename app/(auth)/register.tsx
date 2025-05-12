@@ -43,6 +43,10 @@ export default function RegisterScreen() {
         name: name,
         title: "Người dùng mới",
         points: 0,
+        maxPoints: 0,
+        followers: [],
+        following: [],
+        rank: 0,
         createdAt: new Date(),
       });
   

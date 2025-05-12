@@ -20,6 +20,7 @@ import {
   query,
   orderBy,
   Timestamp,
+  onSnapshot,
 } from "firebase/firestore";
 
 type Post = {
@@ -38,26 +39,43 @@ export default function HomeScreen() {
   const [search, setSearch] = useState('');
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+const handleRefresh = async () => {
+  setRefreshing(true);
+  try {
+    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+    const postData = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Post[];
+    setPosts(postData);
+  } catch (error) {
+    console.error("Lỗi khi làm mới bài viết:", error);
+  } finally {
+    setRefreshing(false);
+  }
+};
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-        const snapshot = await getDocs(q);
-        const postData = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as Post[];
-        setPosts(postData);
-      } catch (error) {
-        console.error("Lỗi khi tải bài viết:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const postData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as Post[];
+      setPosts(postData);
+      setLoading(false);
+    }, (error) => {
+      console.error("Lỗi khi lắng nghe bài viết:", error);
+      setLoading(false);
+    });
 
-    fetchPosts();
+    // Cleanup khi rời màn hình
+    return () => unsubscribe();
   }, []);
+
 
   
   const filteredPosts = posts.filter(
@@ -101,6 +119,8 @@ export default function HomeScreen() {
       <FlatList
         data={filteredPosts}
         keyExtractor={(item) => item.id}
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
         renderItem={({ item }) => (
           <View style={styles.post}>
             <View style={styles.postHeader}>

@@ -10,27 +10,35 @@ export default function LearningScreen() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.push("/(tabs)/profile")}>
+        <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/learning")}>
           <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>BÀI HỌC</Text>
+        <Text style={styles.headerTitle}>BÀI TẬP</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.card}>
-            <TouchableOpacity onPress={() => router.push("/(screen)/lythuyet")}>
-                <Text style={styles.text1}>LÝ THUYẾT</Text>
+            <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/I")}>
+                <Text style={styles.text1}>I. CẶP OXI HÓA – KHỬ</Text>
             </TouchableOpacity>
             <View style={styles.iconBottomRight}>
                 <Entypo name="book" size={40} color="#4a6f43" />
             </View>
         </View> 
         <View style={styles.card}>
-            <TouchableOpacity onPress={() => router.push("/(screen)/baitap")}>
-                <Text style={styles.text1}>BÀI TẬP</Text>
+            <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/II")}>
+                <Text style={styles.text1}>II. ĐIỆN CỰC</Text>
             </TouchableOpacity>
             <View style={styles.iconBottomRight}>
-                <Entypo name="clipboard" size={35} color="#4a6f43" />
+                <Entypo name="book" size={40} color="#4a6f43" />
+            </View>
+        </View> 
+        <View style={styles.card}>
+            <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/III")}>
+                <Text style={styles.text1}>III. THẾ ĐIỆN CỰC</Text>
+            </TouchableOpacity>
+            <View style={styles.iconBottomRight}>
+                <Entypo name="book" size={40} color="#4a6f43" />
             </View>
         </View> 
       </ScrollView>

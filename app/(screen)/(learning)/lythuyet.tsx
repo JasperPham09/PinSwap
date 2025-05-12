@@ -10,35 +10,27 @@ export default function LearningScreen() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.push("/(screen)/learning")}>
+        <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/learning")}>
           <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>BÀI TẬP</Text>
+        <Text style={styles.headerTitle}>LÝ THUYẾT</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.card}>
-            <TouchableOpacity onPress={() => router.push("/(screen)/I")}>
-                <Text style={styles.text1}>I. CẶP OXI HÓA – KHỬ</Text>
+            <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/lythuyetpindien")}>
+                <Text style={styles.text1}>LÝ THUYẾT PIN ĐIỆN</Text>
             </TouchableOpacity>
             <View style={styles.iconBottomRight}>
                 <Entypo name="book" size={40} color="#4a6f43" />
             </View>
         </View> 
         <View style={styles.card}>
-            <TouchableOpacity onPress={() => router.push("/(screen)/II")}>
-                <Text style={styles.text1}>II. ĐIỆN CỰC</Text>
+            <TouchableOpacity onPress={() => router.push("/(screen)/(learning)/pindienvamoitruong")}>
+                <Text style={styles.text1}>PIN ĐIỆN VÀ MÔI TRƯỜNG</Text>
             </TouchableOpacity>
             <View style={styles.iconBottomRight}>
-                <Entypo name="book" size={40} color="#4a6f43" />
-            </View>
-        </View> 
-        <View style={styles.card}>
-            <TouchableOpacity onPress={() => router.push("/(screen)/III")}>
-                <Text style={styles.text1}>III. THẾ ĐIỆN CỰC</Text>
-            </TouchableOpacity>
-            <View style={styles.iconBottomRight}>
-                <Entypo name="book" size={40} color="#4a6f43" />
+                <Entypo name="battery" size={35} color="#4a6f43" />
             </View>
         </View> 
       </ScrollView>

@@ -1,28 +1,84 @@
 import { useLocalSearchParams, router } from 'expo-router';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { db } from '../../firebaseConfig';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export default function ConfirmScreen() {
-  const { pinCount, address, timeSlot, swapOption, image } = useLocalSearchParams();
+  const {
+    fullName,
+    pinCount,
+    address,
+    timeSlot,
+    contactInfo,
+    pinType,
+    // image, // Nếu cần dùng ảnh
+  } = useLocalSearchParams();
+
+  const handleConfirm = async () => {
+    try {
+      await addDoc(collection(db, 'requests'), {
+        fullName,
+        contactInfo,
+        pinCount,
+        pinType,
+        address,
+        timeSlot,
+        createdAt: serverTimestamp(),
+      });
+
+      Alert.alert('Thành công', 'Yêu cầu của bạn đã được gửi.');
+      router.push('/home');
+    } catch (error) {
+      console.error('Lỗi khi lưu yêu cầu:', error);
+      Alert.alert('Lỗi', 'Không thể lưu yêu cầu. Vui lòng thử lại!');
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Xác nhận Yêu cầu</Text>
 
       <View style={styles.infoBox}>
-        <Text style={styles.label}>Số lượng pin: <Text style={styles.value}>{pinCount}</Text></Text>
-        <Text style={styles.label}>Địa chỉ: <Text style={styles.value}>{address}</Text></Text>
-        <Text style={styles.label}>Khung giờ: <Text style={styles.value}>{timeSlot}</Text></Text>
-        <Text style={styles.label}>Đổi pin: <Text style={styles.value}>{swapOption}</Text></Text>
+        <Text style={styles.label}>
+          Họ tên: <Text style={styles.value}>{fullName}</Text>
+        </Text>
+        <Text style={styles.label}>
+          Thông tin liên hệ: <Text style={styles.value}>{contactInfo}</Text>
+        </Text>
+        <Text style={styles.label}>
+          Số lượng pin: <Text style={styles.value}>{pinCount}</Text>
+        </Text>
+        <Text style={styles.label}>
+          Loại pin: <Text style={styles.value}>{pinType}</Text>
+        </Text>
+        <Text style={styles.label}>
+          Địa chỉ: <Text style={styles.value}>{address}</Text>
+        </Text>
+        <Text style={styles.label}>
+          Khung giờ: <Text style={styles.value}>{timeSlot}</Text>
+        </Text>
+        {/* Nếu bạn dùng ảnh:
+        <Text style={styles.label}>Ảnh chụp:</Text>
+        {image && (
+          <Image
+            source={{ uri: image as string }}
+            style={styles.image}
+            resizeMode="cover"
+          />
+        )} */}
       </View>
 
-      {image && (
-        <Image source={{ uri: image as string }} style={styles.image} resizeMode="cover" />
-      )}
-
-      <TouchableOpacity style={styles.button} onPress={() => router.push('/home')}>
+      <TouchableOpacity style={styles.button} onPress={handleConfirm}>
         <Icon name="check-circle" size={20} color="#FFF" />
-        <Text style={styles.buttonText}>Xác nhận và quay lại</Text>
+        <Text style={styles.buttonText}>Xác nhận</Text>
       </TouchableOpacity>
     </ScrollView>
   );
